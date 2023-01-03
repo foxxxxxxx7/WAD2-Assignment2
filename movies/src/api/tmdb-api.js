@@ -11,6 +11,7 @@ export const getMovies = () => {
             throw error
         });
 };
+//test
 
 export const getMovie = (args) => {
     // console.log(args)
