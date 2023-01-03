@@ -19,6 +19,7 @@ This repository contains information about movies and TV shows hosted by the mov
 + Feature 6 - Add to TV watchlist - I have allowed a user to add a TV show to their own watchlist.
 + Feature 7 - Add a review for a tv show - this allows a user to write their own review for a particular tv show
 
+
 ## Setup requirements.
 
 firebase must be installed with "npm install firebase" to include it amongst the node_modules
