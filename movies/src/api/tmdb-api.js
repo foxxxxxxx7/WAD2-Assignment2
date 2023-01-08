@@ -225,3 +225,50 @@ export const signup = (username, password) => {
         body: JSON.stringify({ username: username, password: password })
     }).then(res => res.json())
 };
+
+export const getAuthFavouriteMovies = (user) => {
+    return fetch(
+        `/api/users/${user}/favourites/movies`, {
+           headers: {
+               'Authorization': window.localStorage.getItem('token')
+           }
+       }
+   ).then(res => {
+       return res.json();
+   }).catch((error) => {
+       console.log(error);
+   });
+  };
+
+  export const deleteAuthFavouriteMovies = (user, movie) => {
+    return fetch(
+        `/api/users/${user}/favourites/movies/delete`, {
+           headers: {
+               'Authorization': window.localStorage.getItem('token')
+           },
+           method: 'post',
+           body: JSON.stringify({"id": movie.id})
+       }
+   ).then(res => {
+       return res.json();
+   }).catch((error) => {
+       console.log(error);
+   });
+  };
+
+  export const addAuthFavouriteMovie = ( user, movId ) => {
+    return fetch(
+      `/api/users/${user}/favourites/movies`, {
+           headers: {
+               'Authorization': window.localStorage.getItem('token'),
+               'Content-Type': 'application/json'
+           },
+           method: 'post',
+           body: JSON.stringify({ id: movId })
+       }
+   ).then(res => {
+       return res.json();
+   }).catch((error) => {
+       console.log(error);
+   });
+  };

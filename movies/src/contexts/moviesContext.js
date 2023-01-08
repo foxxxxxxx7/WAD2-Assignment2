@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "./authContext";
 
 export const MoviesContext = React.createContext(null);
 
@@ -6,6 +7,8 @@ const MoviesContextProvider = (props) => {
     const [favorites, setFavorites] = useState([])
     const [myReviews, setMyReviews] = useState({})
     const [watchlist, setWatchlist] = useState([])
+    const userContext = useContext(AuthContext)
+    const user = userContext.userEmail
 
     const addToFavorites = (movie) => {
         let newFavorites = [];
