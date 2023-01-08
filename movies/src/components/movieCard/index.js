@@ -16,11 +16,14 @@ import { Link } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import { MoviesContext } from "../../contexts/moviesContext";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import { AuthContext } from "../../contexts/authContext";
 
 
 export default function MovieCard({ movie, action }) {
     const { favorites, addToFavorites } = useContext(MoviesContext);
     const { watchlist } = useContext(MoviesContext);
+    const userContext = useContext(AuthContext)
+    const user = userContext.userEmail
 
     if (favorites.find((id) => id === movie.id)) {
         movie.favorite = true;
@@ -33,10 +36,10 @@ export default function MovieCard({ movie, action }) {
         movie.watchlist = false
     }
 
-    // const handleAddToFavorite = (e) => {
-    //     e.preventDefault();
-    //     addToFavorites(movie);
-    // };
+    const handleAddToFavorite = (e) => {
+        e.preventDefault();
+        addToFavorites(movie);
+    };
 
     return (
         <Card sx={{ maxWidth: 345 }}>
