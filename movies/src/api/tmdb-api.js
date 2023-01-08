@@ -272,3 +272,50 @@ export const getAuthFavouriteMovies = (user) => {
        console.log(error);
    });
   };
+
+  export const getAuthFavouriteTV = (user) => {
+    return fetch(
+        `/api/users/${user}/favourites/tv`, {
+           headers: {
+               'Authorization': window.localStorage.getItem('token')
+           }
+       }
+   ).then(res => {
+       return res.json();
+   }).catch((error) => {
+       console.log(error);
+   });
+  };
+
+  export const deleteAuthFavouriteTV = (user, tv) => {
+    return fetch(
+        `/api/users/${user}/favourites/tv/delete`, {
+           headers: {
+               'Authorization': window.localStorage.getItem('token')
+           },
+           method: 'post',
+           body: JSON.stringify({"id": tv.id})
+       }
+   ).then(res => {
+       return res.json();
+   }).catch((error) => {
+       console.log(error);
+   });
+  };
+
+  export const addAuthFavouriteTV = ( user, TVId ) => {
+    return fetch(
+      `/api/users/${user}/favourites/tv`, {
+           headers: {
+               'Authorization': window.localStorage.getItem('token'),
+               'Content-Type': 'application/json'
+           },
+           method: 'post',
+           body: JSON.stringify({ id: TVId })
+       }
+   ).then(res => {
+       return res.json();
+   }).catch((error) => {
+       console.log(error);
+   });
+  };
