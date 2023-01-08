@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "./authContext";
+import { getAuthFavouriteTV, addAuthFavouriteTV, deleteAuthFavouriteTV } from "../api/tmdb-api";
 
 export const TVContext = React.createContext(null);
 
@@ -6,9 +8,19 @@ const TVContextProvider = (props) => {
     const [tvfavorites, setTVFavorites] = useState([])
     const [myTVReviews, setMyTVReviews] = useState({})
     const [TVwatchlist, setTVWatchlist] = useState([])
+    const userContext = useContext(AuthContext)
+    const user = userContext.userEmail
 
-    const addToTVFavorites = (tv) => {
+    if(userContext.isAuthenticated){
+        getAuthFavouriteTV(user).then((favorites) => {
+        setTVFavorites(favorites);
+      });
+    }
+
+
+    const addToTVFavorites = (tv, username) => {
         let newTVFavorites = [];
+        addAuthFavouriteTV(username, tv);
         if (!tvfavorites.includes(tv.id)) {
             newTVFavorites = [...tvfavorites, tv.id];
         }
@@ -24,7 +36,8 @@ const TVContextProvider = (props) => {
     //console.log(myReviews);
 
     // We will use this function in a later section
-    const removeFromTVFavorites = (tv) => {
+    const removeFromTVFavorites = (tv, username) => {
+        deleteAuthFavouriteTV(username, tv);
         setTVFavorites(tvfavorites.filter(
             (mId) => mId !== tv.id
         ))

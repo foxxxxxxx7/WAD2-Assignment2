@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "./authContext";
+import { getAuthFavouriteMovies, addAuthFavouriteMovies, deleteAuthFavouriteMovies } from "../api/tmdb-api";
 
 export const MoviesContext = React.createContext(null);
 
@@ -10,10 +11,17 @@ const MoviesContextProvider = (props) => {
     const userContext = useContext(AuthContext)
     const user = userContext.userEmail
 
-    const addToFavorites = (movie) => {
+    if(userContext.isAuthenticated){
+        getAuthFavouriteMovies(user).then((favorites) => {
+        setFavorites(favorites);
+      });
+    }
+
+    const addToFavorites = (movie, username) => {
         let newFavorites = [];
+        addAuthFavouriteMovies(username, movie);
         if (!favorites.includes(movie.id)) {
-            newFavorites = [...favorites, movie.id];
+            newFavorites = [...favorites, movie.id, username];
         }
         else {
             newFavorites = [...favorites];
@@ -27,9 +35,10 @@ const MoviesContextProvider = (props) => {
     //console.log(myReviews);
 
     // We will use this function in a later section
-    const removeFromFavorites = (movie) => {
+    const removeFromFavorites = (movie, username) => {
+        deleteAuthFavouriteMovies(username, movie);
         setFavorites(favorites.filter(
-            (mId) => mId !== movie.id
+            (mId) => mId !== movie.id, username
         ))
     };
 
